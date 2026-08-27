@@ -1,26 +1,31 @@
 {
     "name": "mwaune",
-    "version": "0.1.0",
-    "type": "module",
+    "version": "1.0.0",
+    "description": "Book reading and management software for local book repositories. Reads pdfs, epubs, and such.",
+    "homepage": "https://github.com/givikuna/mwaune#readme",
+    "bugs": {
+        "url": "https://github.com/givikuna/mwaune/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/givikuna/mwaune.git"
+    },
+    "license": "ISC",
+    "author": "",
+    "type": "commonjs",
+    "main": "index.js",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "electron": "electron .",
-        "electron-dev": "concurrently \"yarn dev\" \"wait-on http://localhost:5173 && electron .\""
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "devDependencies": {
-        "@sveltejs/adapter-static": "^3.0.10",
-        "@sveltejs/kit": "^2.70.3",
-        "@sveltejs/vite-plugin-svelte": "^7.3.0",
-        "concurrently": "^10.0.5",
-        "electron": "^43.4.1",
-        "svelte": "^5.56.10",
-        "typescript": "^7.0.2",
-        "vite": "^8.2.2"
+        "@huggingface/prettier-plugin-vertical-align": "^0.3.1",
+        "@types/node": "^26.4.0",
+        "@types/ramda": "^0.32.0",
+        "@types/underscore": "^1.13.0"
     },
     "dependencies": {
-        "pdf-parse": "^2.4.5",
-        "uuid": "^14.0.2"
+        "fp-ts": "^2.16.11",
+        "ramda": "^0.32.0",
+        "underscore": "^1.13.8"
     }
 }
