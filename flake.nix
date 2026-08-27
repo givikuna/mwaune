@@ -21,15 +21,12 @@
 
         naersk' = pkgs.callPackage naersk { };
 
-        node = pkgs.nodejs_latest;
-        npm = pkgs.nodePackages.npm;
-
         tauriApp = naersk'.buildPackage {
           src = ./.;
           nativeBuildInputs = with pkgs; [
             pkg-config
-            gtk4
-            webkitgtk_6_0
+            gtk3
+            webkitgtk_4_1
             libsoup_3
             glib
             gdk-pixbuf
@@ -47,8 +44,9 @@
             cairo
             pango
             gdk-pixbuf
-            webkitgtk_6_0
+            webkitgtk_4_1
             librsvg
+            libxkbcommon
           ];
 
           preBuild = ''
@@ -74,14 +72,15 @@
             clippy
             nodejs_latest
             pkg-config
-            gtk4
-            webkitgtk_6_0
+            gtk3
+            webkitgtk_4_1
             libsoup_3
             glib
             gdk-pixbuf
             librsvg
             openssl
             dbus
+            libxkbcommon
           ];
 
           shellHook = ''
