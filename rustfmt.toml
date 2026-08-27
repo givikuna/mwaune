@@ -5,7 +5,7 @@ unstable_features = true
 # widths
 array_width = 50
 attr_fn_like_width = 50
-max_width = 100
+max_width = 80
 
 # layout
 binop_separator = "Front"
