@@ -10,6 +10,7 @@
         "libsoup",
         "libxkbcommon",
         "mgmt",
+        "mobi",
         "mwaune",
         "naersk",
         "nixos",
@@ -45,5 +46,8 @@
     },
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[svelte]": {
+        "editor.defaultFormatter": "svelte.svelte-vscode"
     }
 }
