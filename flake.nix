@@ -66,12 +66,24 @@
         };
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            # rust
             rustc
+            rust-analyzer
             cargo
             rustfmt
             clippy
+
+            # node
             nodejs_latest
             pkg-config
+            prettier
+            javascript-typescript-langserver
+
+            # nix
+            nixfmt
+            nixd
+
+            # deps
             gtk3
             webkitgtk_4_1
             libsoup_3
@@ -82,6 +94,8 @@
             dbus
             libxkbcommon
           ];
+
+          RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
 
           shellHook = ''
             echo "hi"
