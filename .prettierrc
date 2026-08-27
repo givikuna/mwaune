@@ -9,5 +9,8 @@
     "singleAttributePerLine": true,
     "bracketSameLine": false,
     "quoteProps": "as-needed",
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+
+    "plugins": ["@huggingface/prettier-plugin-vertical-align"],
+    "alignInGroups": "always"
 }
