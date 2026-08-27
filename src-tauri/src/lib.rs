@@ -1,3 +1,4 @@
+pub mod book;
 pub mod config;
 pub mod extract;
 pub mod metadata;
