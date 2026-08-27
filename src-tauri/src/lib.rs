@@ -3,6 +3,7 @@ pub mod config;
 pub mod extract;
 pub mod metadata;
 pub mod notes;
+pub mod types;
 
 /*
 pub mod metadata;
