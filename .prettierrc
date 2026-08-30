@@ -11,6 +11,6 @@
     "quoteProps": "as-needed",
     "endOfLine": "lf",
 
-    "plugins": ["@huggingface/prettier-plugin-vertical-align"],
+    "plugins": ["@huggingface/prettier-plugin-vertical-align", "prettier-plugin-svelte"],
     "alignInGroups": "always"
 }
