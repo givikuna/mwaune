@@ -1,13 +1,12 @@
 use anyhow::Result;
-use std::path::Path;
-use std::sync::Mutex;
+use std::io::Error;
+use std::path::{Path, PathBuf};
+use std::sync::{Mutex, MutexGuard};
 use tauri::State;
 
 use crate::book::Book;
 use crate::config::Config;
-use crate::extract::{
-    extract_metadata, generate_cover, AcademicMetadata, BookType,
-};
+use crate::extract::{extract_metadata, AcademicMetadata, BookType, FileType};
 use crate::metadata::MetadataStore;
 use crate::notes::{HighlightColor, Note};
 // use crate::search::filter_books;
@@ -46,15 +45,65 @@ pub async fn get_books(
     Ok(filtered)
 }
 
-/*
 #[tauri::command]
 pub async fn add_book(
     state: State<'_, AppState>,
     payload: AddBookPayload,
 ) -> Result<Book, String> {
-    //
+    let data_dir: PathBuf = state.config.lock().unwrap().data_dir.clone();
+    let mut metadata: MutexGuard<'_, MetadataStore> =
+        state.metadata.lock().unwrap();
+
+    let hash_id: String =
+        compute_hash(&payload.file_path).map_err(|e| e.to_string())?;
+
+    let (ext_title, ext_authors, ext_year, pages, file_type): (
+        String,
+        Vec<String>,
+        Option<i32>,
+        Option<u32>,
+        FileType,
+    ) = extract_metadata(&payload.file_path).map_err(|e| e.to_string())?;
+
+    let ext_str: &str = match file_type {
+        | FileType::Pdf => "pdf",
+        | FileType::Epub => "epub",
+        | FileType::Mobi => "mobi",
+    };
+
+    let target_filename: String = format!("{}.{}", hash_id, ext_str);
+    let target_path: PathBuf = data_dir.join("books").join(&target_filename);
+
+    std::fs::create_dir_all(data_dir.join("books"))
+        .map_err(|e: Error| e.to_string())?;
+    std::fs::copy(&payload.file_path, &target_path)
+        .map_err(|e: Error| e.to_string())?;
+
+    let title: String = payload.title.unwrap_or(ext_title);
+    let authors: Vec<String> = payload.authors.unwrap_or(ext_authors);
+    let year: Option<i32> = payload.year.or(ext_year);
+    let genres: Vec<String> = payload.genres.unwrap_or_default();
+    let language: String = payload.language.unwrap_or_else(|| "en".to_string());
+
+    let book = Book::new(
+        hash_id,
+        target_path,
+        file_type,
+        title,
+        authors,
+        genres,
+        language,
+        year,
+        pages,
+        payload.book_type,
+        payload.academic_meta,
+    );
+
+    metadata.add_book(book.clone());
+    metadata.save(&data_dir).map_err(|e| e.to_string())?;
+
+    Ok(book)
 }
-*/
 
 /*
 pub async fn update_book(

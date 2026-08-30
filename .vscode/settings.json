@@ -12,6 +12,7 @@
         "libsoup",
         "libxkbcommon",
         "lopdf",
+        "mdata",
         "mgmt",
         "mobi",
         "mwaune",

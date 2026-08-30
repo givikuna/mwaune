@@ -23,6 +23,7 @@
         "tauri:build": "tauri build"
     },
     "dependencies": {
+        "@tauri-apps/plugin-dialog": "^2.7.2",
         "fp-ts": "^2.16.11",
         "fuse.js": "^7.5.0",
         "pdfjs-dist": "^6.2.108",
