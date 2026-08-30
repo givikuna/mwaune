@@ -1,27 +1,41 @@
 import {
     writable,
-    // derived
+    derived,
+    //type Writable,
+    type Readable,
 } from "svelte/store";
-import type { Book, FilterOptions, Config } from "./types";
+// import { pipe } from "fp-ts/function";
+import {
+    Option,
+    none,
+    //some
+} from "fp-ts/Option";
+// import { Either, fold } from "fp-ts/Either";
+import type { Book, FilterOptions, Config, AppError } from "./types";
 
 export const books = writable<Book[]>([]);
-export const filters = writable<FilterOptions>({});
-export const currentBookId = writable<string | null>(null);
-export const config = writable<Config | null>(null);
+export const isLoading = writable<boolean>(false);
+export const error = writable<Option<AppError>>(none);
 
-// TBA
-
-/*
-export const filteredBooks = derived([books, filters], ([$books, $filters]) => {
-    // apply filtering logic (fuzzy search, etc.) – can also be done in backend
-    // but we'll do client-side for responsiveness
-    return filterBooks($books, $filters);
+export const filters = writable<FilterOptions>({
+    query:       none,
+    genre:       none,
+    language:    none,
+    book_type:   none,
+    read_status: none,
+    year_range:  none,
+    page_range:  none,
 });
-*/
 
-// TBA
-/*
-function filterBooks(books: Book[], filters: FilterOptions): Book[] {
+export const config = writable<Option<Config>>(none);
 
- }
-*/
+export const filteredBooks: Readable<Book[]> = derived([books, filters], ([$books, $filters]) => {
+    // to-do fuse.js
+    return applyFilters($books, $filters);
+});
+
+// helper
+function applyFilters(books: Book[], _filters: FilterOptions): Book[] {
+    // to-do fuse.js
+    return books;
+}

@@ -1,15 +1,22 @@
-export type HighlightColor = "yellow" | "green" | "blue" | "pink" | "orange";
+import { Option } from "fp-ts/Option";
 
-export type Theme = "gruvbox" | "nordic" | string;
+// ---------- basics ----------
 
-export type FileType = "pdf" | "epub" | "mobi" | string;
+export enum Theme {
+    Gruvbox = "gruvbox",
+    Nordic = "nordic",
+}
 
-export type BookType = "book" | "paper" | "academic-paper" | string;
+export enum FileType {
+    Pdf = "pdf",
+    Epub = "epub",
+    Mobi = "mobi",
+}
 
-export enum ReadStatus {
-    Read,
-    Unread,
-    InProgress,
+export enum BookType {
+    Book = "book",
+    Paper = "paper",
+    AcademicPaper = "academic-paper",
 }
 
 export interface Progress {
@@ -18,17 +25,22 @@ export interface Progress {
     updated_at: number;
 }
 
-// interfaces
-
-export interface AcademicMetadata {
-    university?: string;
-    doi?:        string;
-    journal?:    string;
-    volume?:     string;
-    issue?:      string;
+export enum HighlightColor {
+    Yellow = "yellow",
+    Green = "green",
+    Blue = "blue",
+    Pink = "pink",
+    Orange = "orange",
+    Red = "red",
 }
 
-// Dependant:
+export enum ReadStatus {
+    Read = "read",
+    Unread = "unread",
+    InProgress = "in-progress",
+}
+
+// ---------- config ----------
 
 export interface Config {
     theme:             Theme;
@@ -37,39 +49,89 @@ export interface Config {
     data_dir:          string;
 }
 
+// ---------- notes ----------
+
 export interface Note {
     id:         string;
-    page:       number;
+    page:       string;
     text:       string;
     color:      HighlightColor;
     created_at: number;
     updated_at: number;
 }
 
+// ---------- metadata ----------
+
+export interface AcademicMetadata {
+    institution: Option<string>;
+    doi:         Option<string>;
+    journal:     Option<string>;
+    volume:      Option<string>;
+    issue:       Option<string>;
+}
+
+// ---------- book ----------
+
 export interface Book {
     id:            string;
     title:         string;
-    authors:       string[];
-    genre:         string;
+    authors:       string;
+    genres:        string[];
     language:      string;
-    year:          number | null;
-    pages:         number | null;
-    cover_path:    string | null;
+    year:          Option<number>;
+    pages:         Option<number>;
+    cover_path:    Option<string>;
     file_path:     string;
     file_type:     FileType;
     book_type:     BookType;
     read:          boolean;
     progress:      Progress;
     notes:         Note[];
-    academic_meta: AcademicMetadata | null;
+    academic_meta: Option<AcademicMetadata>;
+    status:        ReadStatus;
 }
 
+// ---------- filters ----------
+
 export interface FilterOptions {
-    query?:       string;
-    genre?:       string;
-    language?:    string;
-    book_type?:   BookType;
-    read_status?: ReadStatus;
-    year_range?:  [number, number];
-    page_range?:  [number, number];
+    query:       Option<string>;
+    genre:       Option<string>;
+    language:    Option<string>;
+    book_type:   Option<BookType>;
+    read_status: Option<ReadStatus>;
+    year_range:  Option<[number, number]>;
+    page_range:  Option<[number, number]>;
 }
+
+// ---------- api payloads ----------
+
+export interface AddBookPayload {
+    file_path:     string;
+    title:         Option<string>;
+    authors:       Option<string[]>;
+    genre:         Option<string>;
+    language:      Option<string>;
+    year:          Option<number>;
+    book_type:     BookType;
+    academic_meta: Option<AcademicMetadata>;
+}
+
+export interface UpdateBookPayload {
+    title:         Option<string>;
+    authors:       Option<string[]>;
+    genre:         Option<string>;
+    language:      Option<string>;
+    year:          Option<number>;
+    book_type:     Option<BookType>;
+    academic_meta: Option<AcademicMetadata>;
+    read:          Option<boolean>;
+}
+
+// ---------- errors ----------
+
+export type AppError =
+    | { kind: "Network"; message: string }
+    | { kind: "FileSystem"; message: string }
+    | { kind: "Validation"; message: string }
+    | { kind: "NotFound"; message: string }
+    | { kind: "Unknown"; message: string };
