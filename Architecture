@@ -1,0 +1,13 @@
+```
+$DATA_DIR/
+├── config.json                     # nix symlink
+├── metadata.json                   # app managed
+├── books/
+│   ├── <hash>.pdf                  # each gets uniq hash
+│   ├── <hash>.epub
+│   └── <hash>.mobi
+├── covers/
+│   └── <hash>.jpg                  # same as book id
+└── notes/
+    └── <hash>.json                 # same as book id
+```

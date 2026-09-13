@@ -5,5 +5,5 @@
 )]
 
 fn main() {
-    // mwaune)lib::run(),
+    app_lib::run()
 }
